@@ -98,7 +98,7 @@ return [
             'rule-name' => 'custom-message',
         ],
         'password' => [
-            'regex' => 'The password must contain at least ten characters, including one upper case letter, one lower case letter, at least one of @!#$% and a number.'
+            'regex' => 'The password must contain at least ten characters, including one upper case letter, one lower case letter, one numeric letter,at least one of @!#$% and a number.'
         ], 
     ],
     /*
