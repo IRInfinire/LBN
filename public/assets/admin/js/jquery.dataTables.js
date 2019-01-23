@@ -5661,7 +5661,7 @@
 					Math.ceil( headerCells[i].getBoundingClientRect().width ) :
 					cell.outerWidth();
 	
-				// Total is tracked to remove any sub-pixel errors as the outerWidth
+				// Total is tracked to remove any sub-pixel  as the outerWidth
 				// of the table might not equal the total given here (IE!).
 				total += bounding;
 	
@@ -15115,7 +15115,7 @@ console.log( msg );
 		_fnRowAttributes: _fnRowAttributes,
 		_fnCalculateEnd: function () {} // Used by a lot of plug-ins, but redundant
 		                                // in 1.10, so this dead-end function is
-		                                // added to prevent errors
+		                                // added to prevent 
 	} );
 	
 

@@ -1,8 +1,8 @@
 $(document).ready(function () {
     // Prepare reset.
-    function resetModalFormErrors() {
+    function resetModalForm() {
         $('.form-group').removeClass('has-error');
-        $('.errors').find('.error').remove();
+        $('.').find('.error').remove();
         $('.alert').hide();
     }
 
@@ -12,7 +12,7 @@ $(document).ready(function () {
     });
     $("#myModal2").on("hidden.bs.modal", function () {
         $('#myModal2').find('form')[0].reset();
-        resetModalFormErrors();
+        resetModalForm();
     });
     $('#category_submit_bttn').on('click', function (submission) {
         $('form.bootstrap-modal-form').submit();
@@ -70,29 +70,29 @@ $(document).ready(function () {
             processData: false
                     // Response.
         }).always(function (response, status) {
-            // Reset errors.
-            resetModalFormErrors();
-            // Check for errors.
+            // Reset .
+            resetModalForm();
+            // Check for .
             if (response != null && response.status == 422) {
-                var errors = $.parseJSON(response.responseText);
-                // Iterate through errors object.
+                var  = $.parseJSON(response.responseText);
+                // Iterate through  object.
                 var j = 0;
-                $.each(errors, function (field, message) {
+                $.each(, function (field, message) {
                     // var formGroup = $('[name='+field+']', form).closest('.form-group');
                     // formGroup.addClass('has-error').append('<p class="help-block">'+message+'</p>');
                     if (field == 'country_code' || field == 'contact_number') {
                         $('.custom_error').html(message);
                         /* var formGroup = $('[name=' + field + ']', form);
-                         formGroup.wrap("<div class='errors'></div>");
-                         formGroup.parent('.errors').append('<div class="error">' + message + '</div>');*/
+                         formGroup.wrap("<div class=''></div>");
+                         formGroup.parent('.').append('<div class="error">' + message + '</div>');*/
                     } else if (field == 'patient_smoke' || field == 'patient_drink' || field == 'patient_drug' || field == 'surgery_date') {
                         showCustomError(field, message);
                     } else {
                         var formGroup = $('[name=' + field + ']', form);
-                        formGroup.wrap("<div class='errors'></div>");
+                        formGroup.wrap("<div class=''></div>");
                         formGroup.removeClass('mrgn-btm-20');
                         formGroup.removeClass('mrgn-btm-25');
-                        formGroup.parent('.errors').append('<div class="error">' + message + '</div>').addClass('mrgn-btm-20');
+                        formGroup.parent('.').append('<div class="error">' + message + '</div>').addClass('mrgn-btm-20');
                         j = parseInt(j) + 1;
                         if (j == 1)
                             formGroup.focus();
@@ -123,7 +123,7 @@ $(document).ready(function () {
                 } else if (submit.is('input')) {
                     submit.val(submitOriginal).attr('disabled', false);
                 }
-                resetModalFormErrors();
+                resetModalForm();
                 location.reload();
             }
         });
