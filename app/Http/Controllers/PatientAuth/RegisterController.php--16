@@ -180,7 +180,7 @@ use Notifiable;
         } if ($user) {
             $user->type = 'Patient';
             $user->name = $inputData['first_name']." ".$inputData['last_name'];
-            $user->notify(new EmailVerify($user));
+            //$user->notify(new EmailVerify($user));
             return redirect('patient/register')->with('success', trans('Physician::messages.registration_success'));
         } else
             return redirect('patient/register')->with('error', trans('Physician::messages.dnInsertFailed'));

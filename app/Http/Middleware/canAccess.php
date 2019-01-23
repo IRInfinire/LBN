@@ -22,6 +22,6 @@ class canAccess
         if (('S' == $user->user_role) && ($user->hasPermission($permission))) {
             return $next($request);
         }
-        return response()->view('errors.404',[],404);          
+        return response()->view('.404',[],404);          
     }
 }

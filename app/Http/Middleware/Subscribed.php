@@ -18,9 +18,9 @@ class Subscribed
         
         if (!$request->user()->isSubscribed()) {
             if ($request->ajax() || $request->wantsJson()) {
-                return response()->view('errors.401',[],401);
+                return response()->view('.401',[],401);
             }
-            return response()->view('errors.401',[],401);
+            return response()->view('.401',[],401);
 //            return redirect('physician/subscription');
         }       
         return $next($request);

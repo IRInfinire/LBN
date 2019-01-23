@@ -150,7 +150,7 @@ function stripeResponseHandler(status, response) {
   var $form = $('#paymentFrm');
   if (response.error) { // Problem!
     unloading($('.payment')); 
-    // Show the errors on the form:
+    // Show the  on the form:
     //$form.find('.dberror').text(response.error.message);   
     $form.find('.dberror').after('<div class="'+ params.errorClass+'">' + response.error.message + '</div>');   
     $('#paymentFrm button').prop('disabled', false); 

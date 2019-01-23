@@ -24,7 +24,7 @@ class Questions extends Model
      *
      * @var bool
      */
-//    public $timestamps  = false;
+    public $timestamps  = true;
     protected $fillable = array('user_id', 'title', 'description', 'visibility', 'steps_completed');
  
 }

@@ -113,7 +113,7 @@ class ResetPasswordController extends Controller
         return [
             'token' => 'required',
             'email' => 'bail|required|email|max:255',
-            'password' => 'bail|required|regex:/^.*(?=.{10})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@!#$%]).*$/|confirmed',
+            'password' => 'bail|required|regex:/^.*(?=.{10})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*?[0-9])(?=.*[@!#$%]).*$/|confirmed',
         ];
     }
 }

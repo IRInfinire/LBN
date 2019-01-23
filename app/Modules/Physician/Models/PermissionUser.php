@@ -23,6 +23,7 @@ class PermissionUser extends Model {
      *
      * @var bool
      */
+    public $timestamps = true;
     public function users()
     {
         return $this->belongsToMany('App\Modules\Physician\Models\Permissions', 'permission_user','permission_id', 'user_id');

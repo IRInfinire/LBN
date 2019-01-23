@@ -11,7 +11,7 @@
             @endif
            <!--  <form method="POST" action="" name="supportiveDocuploadFrm" id="supportiveDocuploadFrm" role="form" enctype="multipart/form-data"> -->
                 {!! csrf_field() !!}
-                <span class="payment-errors"></span>
+                <span class="payment-"></span>
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title" id="myModalLabel">Credit Card Details</h4>

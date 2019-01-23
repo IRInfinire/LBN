@@ -18,7 +18,7 @@ class reportPermission {
     public function handle($request, Closure $next) {
         $recordExists = QuestionReceipients::where('id', $request->id)->where('physician_id', Auth::user()->getUserId())->first();
         if (!$recordExists) {
-            return response()->view('errors.401', [], 401);
+            return response()->view('.401', [], 401);
         }
         return $next($request);
     }

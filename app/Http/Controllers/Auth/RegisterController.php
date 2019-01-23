@@ -54,7 +54,7 @@ use Notifiable;
         return Validator::make($data, [
                     'physician_name' => 'required|max:255',
                     'email' => 'bail|required|email|max:255|unique:users',
-                    'password' => 'bail|required|regex:/^.*(?=.{10})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@!#$%]).*$/|confirmed',
+                    'password' => 'bail|required|regex:/^.*(?=.{10})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*?[0-9])(?=.*[@!#$%]).*$/|confirmed',
                     'speciality' => 'required',
                     'hospital_name' => 'bail|required|max:255',
                     'npi_number' => 'bail|required|max:255',
@@ -123,7 +123,7 @@ use Notifiable;
 //        $mailSent = EmailHelper::sendEmail($user, $email);
         
         $user->type = 'Physician';
-        $user->notify(new EmailVerify($user));
+        //$user->notify(new EmailVerify($user));
         return redirect('physician/register')->with('success', trans('Physician::messages.registration_success'));
     }
 

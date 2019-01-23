@@ -19,7 +19,7 @@ class userExists {
     public function handle($request, Closure $next) {
         $patientDetails = Patient::where('id', $request->id)->first();
         if (!$patientDetails) {
-            return response()->view('errors.404', [], 404);
+            return response()->view('.404', [], 404);
         }
         return $next($request);
     }

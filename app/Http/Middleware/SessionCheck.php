@@ -52,7 +52,7 @@ class SessionCheck extends \Illuminate\Auth\Middleware\Authenticate {
 //            echo $validSession->session_identifier .'====='.session('session_identifier');
 //            die;
             if (!$validSession) {
-                return response()->view('errors.401', [], 401);
+                return response()->view('.401', [], 401);
             }
         }
 

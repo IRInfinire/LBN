@@ -135,7 +135,7 @@ use AuthenticatesUsers,
     protected function sendFailedLoginResponse(Request $request) {
         return redirect()->back()
                         ->withInput($request->only($this->username(), 'remember', 'user_type1', 'user_type2'))
-                        ->withErrors([
+                        ->with([
                             $this->username() => trans('auth.failed'),
         ]);
     }

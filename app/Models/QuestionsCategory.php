@@ -24,7 +24,7 @@ class QuestionsCategory extends Model
      *
      * @var bool
      */
-    public $timestamps  = false;
+    public $timestamps  = true;
     protected $fillable = array('user_id', 'question_id', 'category_id', 'question', 'answer_method', 'narrative_output', 'clinical_question', 'quest_status','active');
     /**
      * Relation with Category
