@@ -16,6 +16,7 @@ class CreateBloodRelationsTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('relations', 100);
+			$table->timestamps();
 		});
 	}
 

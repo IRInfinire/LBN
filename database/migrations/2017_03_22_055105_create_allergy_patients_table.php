@@ -18,6 +18,7 @@ class CreateAllergyPatientsTable extends Migration {
 			$table->integer('patient_id');
 			$table->string('type');
 			$table->text('description', 65535);
+			$table->timestamps();
 		});
 	}
 
