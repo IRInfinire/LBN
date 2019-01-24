@@ -11,7 +11,7 @@
     <!-- Main content -->
     <section class="content">      
        <?php $title = 'Payment Plans'; ?>       
-        @if (count($userPlans) != 0)
+        @if (count((array)$userPlans) != 0)
           <?php $title = 'Upgrade Subscription'; ?> 
           @include('Physician::subscription.partials._current')
         @endif
@@ -23,7 +23,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="content-area-sub">
-                @if (count($userPlans) === 0)
+                @if (count((array)$userPlans) === 0)
                 <div class="col-sm-12">
                     <p class="mrgn-btm-20">Purchase a payment plan to start creating Question Sets.</p>
                 </div>
@@ -216,7 +216,7 @@ $(document).on('click','.editcard',function(e){
     $('#myModal149 .card-thumbs img').removeClass('card-active');
     $('#myModal149 .editcard').remove();
 });
-@if (count($userPlans) != 0)
+@if (count((array)$userPlans) != 0)
   $(document).on('click','.cancelSubscription',function(e){ 
     //e.preventDefault();   
     var Confirm =confirm('Are you sure to cancel Subscription?');

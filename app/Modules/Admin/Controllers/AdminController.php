@@ -78,7 +78,7 @@ class AdminController extends Controller
         $patientId                     = $id;
         $patientDetails                = Patient::where('id', $patientId)->first();
         $patientDetails->profile_image = ($patientDetails->profile_image != '') ? asset('uploads/patient/' . config('settings.thumb_prefix') . $patientDetails->profile_image) : asset('assets/dummy-profile-pic.png');
-        if (count($patientDetails) <= 0)
+        if (count((array)$patientDetails) <= 0)
             return redirect('admin/home');
         else
             return view("Admin::patient_profile_view", compact('patientDetails'));

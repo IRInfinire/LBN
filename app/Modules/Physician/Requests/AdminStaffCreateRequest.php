@@ -25,7 +25,7 @@ class AdminStaffCreateRequest extends FormRequest
                                 $query->orWhere('user_role', 'D');
                           })
                         ],
-            'password' => 'required|regex:/^.*(?=.{10})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@!#$%]).*$/',
+            'password' => 'required|regex:/^.*(?=.{10})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*?[0-9])(?=.*[@!#$%]).*$/',
             'permission' => 'required|min:1'
         ];
         return $rules;

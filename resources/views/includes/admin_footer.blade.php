@@ -2,12 +2,14 @@
 <!-- ./wrapper -->
 
 </body>
-<script type="text/javascript" src="{{asset('assets/admin/js/jquery-2.1.4.js')}}"></script>
+<!-- <script type="text/javascript" src="{{asset('assets/admin/js/jquery-2.1.4.js')}}"></script> -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script type="text/javascript" src="{{asset('assets/admin/js/bootstrap.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/admin/js/bootstrap-select.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/admin/js/app.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/admin/js/bootstrap-datepicker.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/physician/js/jquery.dataTables.js?v=1.0')}}"></script>
+<!-- <script type="text/javascript" src="{{asset('assets/physician/js/jquery.dataTables.js?v=1.0')}}"></script> -->
+<script type="text/javascript" src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="{{asset('assets/admin/js/common-scripts.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/admin/js/admin-scripts.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/common/js/ajax_validator.js')}}"></script>

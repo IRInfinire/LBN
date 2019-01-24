@@ -16,7 +16,7 @@ use App\Modules\Physician\Repositories\PermissionUserRepository;
 // Requests 
 use App\Modules\Physician\Requests\AdminStaffCreateRequest;
 use App\Modules\Physician\Requests\AdminStaffUpdateRequest;
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 // Mail Sending
 use Mail;
 use App\Mail\AdminStaff;
@@ -60,7 +60,7 @@ class AdminStaffController extends Controller {
         $user_id = Auth::user()->getUserId();
         $adminStaffs = $adminstaffrepo->all($user_id);
         return Datatables::of($adminStaffs)
-                        ->add_column('', function($adminStaffs) {
+                        ->addColumn('', function($adminStaffs) {
                             $actionLinks = "";
                             if (Auth::user()->isAuthorizedStaff('admin_staff_edit'))
                                 $actionLinks .= '<a href="' . route('physician.adminstaff.edit', $adminStaffs->id) . '" class="edit not-done" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-square-o" ></i></a>';

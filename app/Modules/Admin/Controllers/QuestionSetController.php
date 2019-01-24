@@ -12,7 +12,8 @@ use App\Modules\Physician\Repositories\CategoryRepository;
 use App\Modules\Physician\Repositories\NotificationsRepository;
 use App\Modules\Physician\Repositories\PhysicianRepository;
 use App\Modules\Admin\Repositories\PatientsRepository;
-use Yajra\Datatables\Facades\Datatables;
+// use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 // use Auth
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
@@ -26,6 +27,7 @@ use Mail;
 use Illuminate\Notifications\Notifiable;
 use App\Notifications\UserStatusChangeNotify;
 use App\Notifications\QuestionUnpublishNotify;
+use App\User;
 
 class QuestionSetController extends Controller
 {
@@ -68,7 +70,7 @@ class QuestionSetController extends Controller
         $questionSets         = $this->questionsRepo->getQuestionList($inputData);
         // showing published question sets
         return Datatables::of($questionSets)
-                ->edit_column('title', function($questionSets) use ($requestData) {
+                ->editColumn('title', function($questionSets) use ($requestData) {
                     $return = '<div class="content-sub mrgn-btm-5 pdng-0" id="question-set-' . $questionSets->id . '">
    <div class="content-area-sub">
       <div class="col-sm-7 col-md-9 col-lg-10 q-list su-q-list">
@@ -123,16 +125,16 @@ class QuestionSetController extends Controller
 //                ->edit_column('slNo', function($patients) use ($requestData) {
 //                    return '';//$patients->id;
 //                })
-                ->edit_column('first_name', function($patients) use ($requestData) {
+                ->editColumn('first_name', function($patients) use ($requestData) {
                     return '<a href="' . url('admin/patientProfileView/' . $patients->id) . '">' . $patients->first_name . ' ' . $patients->last_name . '</a>';
                 })
-                ->edit_column('email', function($patients) use ($requestData) {
+                ->editColumn('email', function($patients) use ($requestData) {
                     return '<p class="txt-blue">' . $patients->email . '</p>';
                 })
-                ->edit_column('dob', function($patients) use ($requestData) {
+                ->editColumn('dob', function($patients) use ($requestData) {
                     return convertDateToMMDDYYYY($patients->dob, '/');
                 })
-                ->edit_column('', function($patients) use ($requestData) {
+                ->editColumn('', function($patients) use ($requestData) {
                     if ($patients->is_account_active == 'Y') {
                         $class      = 'label-active';
                         $classLabel = 'Active';
@@ -174,7 +176,7 @@ class QuestionSetController extends Controller
         $questionSet        = $questionSets;
 
         // getting the qestion category
-        if (count($questionSets) > 0) {
+        if (count((array)$questionSets) > 0) {
             // getting selected question category
             $selectedCategories = $this->questionsCategoryRepo->all(0, $id);
             // getting selected question category
@@ -187,8 +189,20 @@ class QuestionSetController extends Controller
         }
     }
 
+
+
+    public function physiciansListtest(Request $request) {
+        //return \Datatables::of(User::query())->make(true);
+        return DataTables::of(User::query())->make(true);
+        // return true;
+        // echo "test";
+    }
+
+
+
+
     public function physiciansList(Request $request)
-    {
+    { 
         //get session data
         $userData                = Auth::user();
         $requestData             = $request->all();
@@ -196,28 +210,28 @@ class QuestionSetController extends Controller
         $inputData['selectWith'] = 'PatientsCount';
         $inputData['getUsers']   = 'physicians';
         $inputData['listType']   = 'list';
-
+       
         // common function call to get public or private question set.
         $users = $this->physicianRepo->getUsers($inputData);
-
+        // print_r($users);die;
         return Datatables::of($users)
 //                ->add_column('slNo', function($users) use ($requestData) {
 //                     return '';
 //                })
-                ->edit_column('name', function($users) use ($requestData) {
+                ->editColumn('name', function($users) use ($requestData) {
                     return '<a href="' . url('admin/physicianProfileView/' . $users->id) . '">' . $users->name . '</a>';
                 })
-                ->edit_column('hospital_name', function($users) use ($requestData) {
+                ->editColumn('hospital_name', function($users) use ($requestData) {
                     return '<p class="txt-blue">' . $users->hospital_name . '</p>';
                 })
-                ->edit_column('last_logged_in', function($users) use ($requestData) {
+                ->editColumn('last_logged_in', function($users) use ($requestData) {
                     return convertDateToMMDDYYYY($users->last_logged_in, 'withTime');
                 })
-                ->edit_column('id', function($users) use ($requestData) {
+                ->editColumn('id', function($users) use ($requestData) {
 
                     return '<span class="">' . $users->link_patients . '</span>';
                 })
-                ->edit_column('', function($users) use ($requestData) {
+                ->editColumn('', function($users) use ($requestData) {
                     if ($users->is_account_active == 'Y') {
                         $class      = 'label-active';
                         $classLabel = 'Active';

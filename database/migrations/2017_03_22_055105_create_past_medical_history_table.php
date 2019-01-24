@@ -18,6 +18,7 @@ class CreatePastMedicalHistoryTable extends Migration {
 			$table->integer('patient_id');
 			$table->string('type')->nullable();
 			$table->text('description', 65535)->nullable();
+			$table->timestamps();
 		});
 	}
 

@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 //use App\User;
 use Illuminate\Support\Facades\Config;
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 
 class QuestionSetController extends Controller
 {
@@ -61,7 +61,7 @@ class QuestionSetController extends Controller
         $userData   = Auth::user();
         $userId     = $userData->id;
         $result     = $this->questionsRepo->getImcompleteQuestions($userId);
-        if (count($result) > 0)
+        if (count((array)$result) > 0)
             return redirect('/physician/createQuestionSetNext/' . $result->id);
 // getting the category
         $categories = $this->categoryRepo->all();
@@ -121,7 +121,7 @@ class QuestionSetController extends Controller
             $resultCatgy     = $this->questionsCategoryRepo->create($requestData, $userId, $questionId, $masterQuestions);
         }
 
-        if (count($result) > 0) {
+        if (count((array)$result) > 0) {
             $returnData = json_encode(array('status' => true, 'redirectUrl' => '/physician/createQuestionSetNext/' . $questionId));
         } else {
             $returnData = json_encode(array('status' => false));
@@ -161,7 +161,7 @@ class QuestionSetController extends Controller
         $categories  = $this->categoryRepo->all();
 // getting the question info
         $questionSet = $this->questionsRepo->all($id, $userId);
-        if (count($questionSet) > 0) {
+        if (count((array)$questionSet) > 0) {
 
             // getting selected question category
             $defaultOutput        = $this->questionDefaultOutputRepo->getQuestionNarrativeOutput($qid);
@@ -242,7 +242,7 @@ class QuestionSetController extends Controller
             $inputData['quesCategyId'] = $rid;
             $yesNoQues                 = $this->questionsWithYesnoRepo->getRow($inputData);
             // converting to array
-            if (count($yesNoQues) > 0)
+            if (count((array)$yesNoQues) > 0)
                 $yesNoQues                 = $yesNoQues->toArray();
             $yesNoMasterQues           = $this->yesNoQuestions($inputData);
         }
@@ -507,7 +507,7 @@ class QuestionSetController extends Controller
             return (array('flag' => 'success', 'url' => '/physician/createQuestionSetNext/' . $newQuestion->id));
         }
 
-        if (count($input) > 0)
+        if (count((array)$input) > 0)
             $result = $this->questionsCategoryRepo->updateQuestionFlags($reqData, $input, $userId);
         if ($reqData['flagType'] == 'delete') {
             if ($result)
@@ -535,31 +535,31 @@ class QuestionSetController extends Controller
         $allReceipients = $this->questionReceipientsRepo->allReceipients($qid, $userId);
 
         return Datatables::of($allReceipients)
-                ->edit_column('first_name', function($allReceipients) {
+                ->editColumn('first_name', function($allReceipients) {
                     if ($allReceipients->status == 'completed')
                         return '<a href="' . url('physician/patients/' . $allReceipients->id . '/questionset') . '">' .
                             $allReceipients->first_name . ' ' . $allReceipients->last_name . '</a>';
                     else
                         return formatData($allReceipients->is_account_active, $allReceipients->entry_type, 'text', $allReceipients->first_name . ' ' . $allReceipients->last_name);
                 })
-                ->edit_column('email', function($allReceipients) {
+                ->editColumn('email', function($allReceipients) {
                     if ($allReceipients->entry_type == 'T' && $allReceipients->is_account_active == 'P')
                         return '-';
                     return $allReceipients->email;
                 })
-                ->edit_column('contact_number', function($allReceipients) {
+                ->editColumn('contact_number', function($allReceipients) {
                     return $allReceipients->contact_number;
                 })
-                ->edit_column('created_at', function($allReceipients) {
+                ->editColumn('created_at', function($allReceipients) {
                     return date("m/j/Y", strtotime($allReceipients->created_at));
                 })
-                ->edit_column('is_account_active', function($allReceipients) {
+                ->editColumn('is_account_active', function($allReceipients) {
                     if ($allReceipients->activation_code == '')
                         return isLinkBoxMember($allReceipients->is_account_active);
                     else
                         return 'No';
                 })
-                ->edit_column('status', function($allReceipients) {
+                ->editColumn('status', function($allReceipients) {
                     return '<span class="color-' . $allReceipients->status . '">' . ucwords($allReceipients->status) . '</span>';
                 })
                 ->filter(function ($instance) use ($request) {
@@ -599,7 +599,7 @@ class QuestionSetController extends Controller
         $questionSets       = $this->questionsRepo->all($id, $userId);
         $questionSet        = $questionSets;
         // getting the qestion category
-        if (count($questionSets) > 0) {
+        if (count((array)$questionSets) > 0) {
             // getting selected question category
             $selectedCategories = $this->questionsCategoryRepo->all($userId, $id);
             $masterQuestions    = $this->categoryQuestionsRepo->all();
@@ -618,12 +618,12 @@ class QuestionSetController extends Controller
             $this->questionsCategoryRepo->updateQuestionFlags($inputData, $input, $userId);
 
             $yesNoQues        = $this->questionsWithYesnoRepo->getRow($inputData);
-            if (count($yesNoQues) > 0)
+            if (count((array)$yesNoQues) > 0)
                 $yesNoQues        = $yesNoQues->toArray();
             $yesNoQuesCatgyId = array();
             $yesNoCategyList  = array();
 
-            for ($i = 0; $i < count($yesNoQues); $i++) {
+            for ($i = 0; $i < count((array)$yesNoQues); $i++) {
 // assigning values to variables
                 $quesCategoryId = $yesNoQues[$i]['question_category_id'];
                 $answerOption   = $yesNoQues[$i]['ans_option'];
@@ -678,7 +678,7 @@ class QuestionSetController extends Controller
         $inputData['id']      = $id;
         $inputData['setType'] = 'public';
         $checkQuestion        = $this->questionsRepo->getQuestionList($inputData);
-        if (count($checkQuestion) > 0) {
+        if (count((array)$checkQuestion) > 0) {
             foreach ($checkQuestion as $row)
                 $prevUserId = $row->user_id;
 

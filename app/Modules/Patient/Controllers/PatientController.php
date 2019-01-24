@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
 use App\Models\Allergy;
-use Yajra\Datatables\Facades\Datatables;
+// use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 use App\Modules\Patient\Repositories\PatientAllergyRepository;
 use App\Modules\Patient\Repositories\MedicationsRepository;
 use App\Modules\Patient\Repositories\PastMedHistoryRepository;
@@ -159,7 +160,7 @@ class PatientController extends Controller {
             return ($notications + $notications2) . '###' . $notications . '###' . $notications2;
         }
         return Datatables::of($notications)
-                        ->edit_column('name', function($notications) use ($requestData, $notificationsRepo) {
+                        ->editColumn('name', function($notications) use ($requestData, $notificationsRepo) {
                             if ($requestData['listType'] == 'Notifications') {
                                 if ($notications->is_seen)
                                     $return = '<div id="divPanel' . $notications->id . '" class="content-sub noti-box noti-read mrgn-btm-20">';
@@ -300,7 +301,7 @@ class PatientController extends Controller {
         $this->patientAllergyRepo = new PatientAllergyRepository();
         $allergyList = $this->patientAllergyRepo->getAllergyList($patientId);
         return Datatables::of($allergyList)
-                        ->add_column('action', function($allergyList) {
+                        ->addColumn('action', function($allergyList) {
                             return '<a href="' . route('patient.delete.allergies', $allergyList->id) . '" class="med-rec-del edit pull-right delete_allergy" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o delete_edit_fa" ></i></a>
                             <span data-toggle="modal" data-target="#allergyModal" data-remote="' . route('patient.edit.allergies', $allergyList->id) . '"><a href="javascript:void(0);" class="edit pull-right" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-square-o delete_edit_fa"></i></a></span>';
                         })
@@ -368,7 +369,7 @@ class PatientController extends Controller {
         $this->medicationsRepo = new MedicationsRepository();
         $medicationsList = $this->medicationsRepo->getMedicationsList($patientId);
         return Datatables::of($medicationsList)
-                        ->add_column('action', function($medicationsList) {
+                        ->addColumn('action', function($medicationsList) {
                             return '<a href="' . route('patient.delete.medications', $medicationsList->id) . '" class="med-rec-del edit pull-right delete_medications" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o delete_edit_fa" ></i></a>
                             <span data-toggle="modal" data-target="#medicationsModal" data-remote="' . route('patient.edit.medications', $medicationsList->id) . '"><a href="javascript:void(0);" class="edit pull-right" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-square-o delete_edit_fa"></i></a></span>';
                         })
@@ -435,7 +436,7 @@ class PatientController extends Controller {
         $this->patientMedHistoryRepo = new PastMedHistoryRepository;
         $medHistoryList = $this->patientMedHistoryRepo->getPastMedHistoryList($patientId);
         return Datatables::of($medHistoryList)
-                        ->add_column('action', function($medHistoryList) {
+                        ->addColumn('action', function($medHistoryList) {
                             return '<a href="' . route('patient.delete.med_history', $medHistoryList->id) . '" class="med-rec-del edit pull-right delete_med_history" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o delete_edit_fa" ></i></a>
                             <span data-toggle="modal" data-target="#medHistoryModal" data-remote="' . route('patient.edit.med_history', $medHistoryList->id) . '"><a href="javascript:void(0);" class="edit pull-right" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-square-o delete_edit_fa"></i></a></span>';
                         })
@@ -503,10 +504,10 @@ class PatientController extends Controller {
         $this->surgicalHistoryRepo = new SurgicalHistoryRepository();
         $surgicalHistoryList = $this->surgicalHistoryRepo->getSurgicalHistoryList($patientId);
         return Datatables::of($surgicalHistoryList)
-                        ->edit_column('surgery_date', function($surgicalHistoryList) {
+                        ->editColumn('surgery_date', function($surgicalHistoryList) {
                             return (!empty($surgicalHistoryList->surgery_date)) ? Carbon::parse($surgicalHistoryList->surgery_date)->format('m/d/Y') : "-";
                         })
-                        ->add_column('action', function($surgicalHistoryList) {
+                        ->addColumn('action', function($surgicalHistoryList) {
                             return '<a href="' . route('patient.delete.surgical_history', $surgicalHistoryList->id) . '" class="med-rec-del edit pull-right delete_surgical_history" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o delete_edit_fa" ></i></a>
                             <span data-toggle="modal" data-target="#surgicalHistoryModal" data-remote="' . route('patient.edit.surgical_history', $surgicalHistoryList->id) . '"><a href="javascript:void(0);" class="edit pull-right" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-square-o delete_edit_fa"></i></a></span>';
                         })
@@ -574,7 +575,7 @@ class PatientController extends Controller {
         $this->familyHistoryRepo = new FamilyHistoryRepository();
         $familyHistoryList = $this->familyHistoryRepo->getFamilyHistoryList($patientId);
         return Datatables::of($familyHistoryList)
-                        ->add_column('action', function($familyHistoryList) {
+                        ->addColumn('action', function($familyHistoryList) {
                             return '<a href="' . route('patient.delete.family_history', $familyHistoryList->id) . '" class="med-rec-del edit pull-right delete_family_history" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Delete"><i class="fa fa-trash-o delete_edit_fa" ></i></a>
                             <span data-toggle="modal" data-target="#familyHistoryModal" data-remote="' . route('patient.edit.family_history', $familyHistoryList->id) . '"><a href="javascript:void(0);" class="edit pull-right" type="button" class="btn" data-toggle="tooltip" data-placement="top" title="Edit"><i class="fa fa-pencil-square-o delete_edit_fa"></i></a></span>';
                         })

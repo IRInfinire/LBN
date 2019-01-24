@@ -60,7 +60,7 @@ use Notifiable;
                 'first_name' => 'bail|required|max:255',
                 'last_name' => 'bail|required|max:255',
                 'email' => 'bail|required|email|max:255|unique:patients,email,P,is_account_active',
-                'password' => 'bail|required|regex:/^.*(?=.{10})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@!#$%]).*$/|confirmed',
+                'password' => 'bail|required|regex:/^.*(?=.{10})(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*?[0-9])(?=.*[@!#$%]).*$/|confirmed',
                 'gender' => 'required',
                 'dob' => 'bail|required|max:255',
                 'country_code' => 'bail|required|max:5|regex:/^\+?[^a-zA-Z]{1,}$/',
@@ -180,7 +180,7 @@ use Notifiable;
         } if ($user) {
             $user->type = 'Patient';
             $user->name = $inputData['first_name'] . " " . $inputData['last_name'];
-            $user->notify(new EmailVerify($user));
+            //$user->notify(new EmailVerify($user));
             return redirect('patient/register')->with('success', trans('Physician::messages.registration_success'));
         } else
             return redirect('patient/register')->with('error', trans('Physician::messages.dnInsertFailed'));

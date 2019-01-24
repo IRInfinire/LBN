@@ -88,7 +88,7 @@ var listingTables = function (parameters) {
 //         $("td:first", row).html(index + 1);// $(row).attr('id', 'row-' + dataIndex);
       },
       errMode: "none"
-   });
+   }); console.log(datatable);
 }
 //datatable.on('order.dt search.dt', function () {
 //   t.column(0, {search: 'applied', order: 'applied'}).nodes().each(function (cell, i) {

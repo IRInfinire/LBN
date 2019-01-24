@@ -68,7 +68,9 @@
     parameters['ajaxUrl'] = "{!! url('admin/physicians-list') !!}";
     parameters['isPopup'] = true;
     $(document).ready(function () {
+        
        listingTables(parameters);
+       
     });
     $('#btnSearch').on('click', function () {
        if ($.trim($('#searchlist').val()) != '')
@@ -85,4 +87,5 @@
        }
     });
 </script>
+
 @endsection

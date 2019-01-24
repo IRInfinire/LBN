@@ -18,6 +18,14 @@ class PermissionUser extends Model {
      * @var array
      */
     protected $guarded = []; 
+
+    /**
+     * Indicates if the model should be timestamped.
+     *
+     * @var bool
+     */
+    public $timestamps = true;
+    
     /**
      * Relations.
      *
@@ -27,4 +35,6 @@ class PermissionUser extends Model {
     {
         return $this->belongsToMany('App\Modules\Physician\Models\Permissions', 'permission_user','permission_id', 'user_id');
     } 
+
+
 }

@@ -16,6 +16,7 @@ class CreateAllergyTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('allergy', 100);
+			$table->timestamps();
 		});
 	}
 

@@ -16,7 +16,7 @@ use App\Modules\Physician\Repositories\SubscriptionRepository;
 
 // Requests 
 use App\Modules\Physician\Requests\SubscriptionCreateRequest;
-//use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 // Mail Sending
 //use Mail;
 //use App\Mail\AdminStaff;

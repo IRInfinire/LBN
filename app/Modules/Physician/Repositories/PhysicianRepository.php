@@ -33,11 +33,12 @@ class PhysicianRepository extends BaseRepository
      */
     public function getUsers($inputData)
     {//distinct question_recipients.patient_id AS link_patients  , 
+        // print_r($inputData);
         if (key_exists('selectWith', $inputData) && $inputData['selectWith'] == 'PatientsCount')
             $query = $this->physician->select(DB::raw('COUNT(DISTINCT question_recipients.patient_id) AS link_patients'), 'users.id', 'users.name', 'users.hospital_name', 'users.last_logged_in', 'users.is_account_active');
         else
             $query = $this->physician->select('users.id', 'users.name', 'users.hospital_name', 'users.last_logged_in', 'users.is_subscribed');
-
+            
         if (key_exists('userType', $inputData))
             $query = $query->where('users.user_role', '=', 'D');  
         if (key_exists('selectWith', $inputData) && $inputData['selectWith'] == 'PatientsCount')
@@ -50,6 +51,8 @@ class PhysicianRepository extends BaseRepository
         $result = $query->groupBy('users.id')->orderBy('users.id','DESC');
         if (key_exists('email', $inputData))
             $result = $query->get()->first();
+        
+    
         return $result;
     }
 
