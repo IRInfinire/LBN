@@ -4,7 +4,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="fadeContent">
-            @if (count($userPlans) === 0)
+            @if (count((array)$userPlans) === 0)
             {!! Form::open(['url' => route('physician.subscription.create'),'method' => 'post','name'=> 'paymentFrm', 'id'=>'paymentFrm']) !!}
             @else
              {!! Form::open(['url' => route('physician.subscription.upgrade'),'method' => 'post','name'=> 'paymentFrm', 'id'=>'paymentFrm']) !!}

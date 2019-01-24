@@ -12,7 +12,8 @@ use App\Models\QuestionReceipientsAnswers;
 //Repositories
 //use App\Modules\Patient\Repositories\QuestionReceipientRepository;
 // DataTable
-use Yajra\Datatables\Facades\Datatables;
+// use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 use App\Modules\Physician\Repositories\NotificationsRepository;
 
 class QuestionController extends Controller
@@ -43,10 +44,10 @@ class QuestionController extends Controller
                 ->where('status', '<>', 'completed')
                 ->select('questions.*', 'question_recipients.id as qResId', 'users.name as physician', 'users.hospital_name as clinic', 'users.contact_number as contact_no')->where('questions.active', 'Y');
         return Datatables::of($questions)
-                ->add_column('title', function($questions) {
+                ->addColumn('title', function($questions) {
                     return '<a href="' . route('patient.question.brief', $questions->qResId) . '">' . $questions->title . '</a>';
                 })
-                ->add_column('created_at', function($questions) {
+                ->addColumn('created_at', function($questions) {
                     return (!empty($questions->created_at)) ? date('m/d/Y', strtotime($questions->created_at)) : "";
                 })
                 ->filter(function ($instance) use ($request) {
@@ -196,7 +197,7 @@ class QuestionController extends Controller
 
 // updating notification as seen.
         $notifDetails = $notificationsRepo->getID(array('is_seen' => 0, 'question_id' => $questionReceipients['question_id'], 'receiver_id' => $patientId, 'receiver_type' => 2, 'question_recipients_id' => $qRecId));
-        if (count($notifDetails) > 0) {
+        if (count((array)$notifDetails) > 0) {
             $notifId      = $notifDetails->id;
             $notificationsRepo->updateData(array('notifId' => $notifId, 'nid' => $notifId), array('is_seen' => 1));
             // sending notification

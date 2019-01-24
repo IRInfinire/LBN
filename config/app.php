@@ -34,7 +34,7 @@ return [
       | application. If disabled, a simple generic error page is shown.
       |
      */
-    'debug' => env('APP_DEBUG', false),
+    'debug' => env('APP_DEBUG', true),
     /*
       |--------------------------------------------------------------------------
       | Application URL
@@ -102,9 +102,9 @@ return [
       |
       | Available Settings: "single", "daily", "syslog", "errorlog"
       |
-     */
-    'log' => env('APP_LOG', 'single'),
-    'log_level' => env('APP_LOG_LEVEL', 'debug'),
+    //  */
+    // 'log' => env('APP_LOG', 'single'),
+    // 'log_level' => env('APP_LOG_LEVEL', 'debug'),
     /*
       |--------------------------------------------------------------------------
       | Autoloaded Service Providers
@@ -169,7 +169,8 @@ return [
         /*
          * DataTable
          */
-        Yajra\Datatables\DatatablesServiceProvider::class,
+        // Yajra\Datatables\DatatablesServiceProvider::class,
+        Yajra\DataTables\DataTablesServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         /* Cashier for Payment */
         Laravel\Cashier\CashierServiceProvider::class,
@@ -177,6 +178,7 @@ return [
         NotificationChannels\Twilio\TwilioProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Barryvdh\Snappy\ServiceProvider::class,
+
     ],
     /*
       |--------------------------------------------------------------------------
@@ -199,6 +201,8 @@ return [
         'Config' => Illuminate\Support\Facades\Config::class,
         'Cookie' => Illuminate\Support\Facades\Cookie::class,
         'Crypt' => Illuminate\Support\Facades\Crypt::class,
+        // 'Datatables' => Yajra\DataTables\Facades\DataTables::class,
+        'Datatables' => Yajra\Datatables\Datatables::class,
         'DB' => Illuminate\Support\Facades\DB::class,
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
         'Event' => Illuminate\Support\Facades\Event::class,

@@ -22,7 +22,8 @@
       <link rel="stylesheet" href="{{asset('assets/admin/css/custom_patient.css')}}">
 
       <!-- DataTable Css -->
-      <link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.css') }}" >
+      <!-- <link rel="stylesheet" href="{{ asset('assets/admin/css/jquery.dataTables.css') }}" > -->
+      <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
 
       <!--[if lt IE 9]>

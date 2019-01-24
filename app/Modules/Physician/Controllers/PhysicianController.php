@@ -37,7 +37,7 @@ use App\Helpers\ImageResizeHelper;
 use Illuminate\Support\Facades\Config;
 use App\Modules\Physician\Requests\SendQuestionSetRequest;
 use App\Notifications\SendQuestionNotify;
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 use App\Notifications\QuestionSetSms;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\SummaryReport;
@@ -121,7 +121,7 @@ class PhysicianController extends Controller
         if (key_exists('setType', $requestData) && $requestData['setType'] == 'public') {
             // showing published question sets
             return Datatables::of($questionSets)
-                    ->edit_column('title', function($questionSets) use ($requestData) {
+                    ->editColumn('title', function($questionSets) use ($requestData) {
                         $return = '<div class="content-sub mrgn-btm-20">
                                     <div class="col-sm-7 col-md-9 col-lg-10 q-list">
                                         <img src="' . asset('assets/physician/images/question-set-icon.png') . '"/>
@@ -155,19 +155,19 @@ class PhysicianController extends Controller
                     })->make(true);
         } else {  // showing all question sets without any filtering
             return Datatables::of($questionSets)
-                    ->edit_column('title', function($questionSets) use ($permCls) {
+                    ->editColumn('title', function($questionSets) use ($permCls) {
                         return '<a href="' . url('physician/question-set-detail/' . $questionSets->id) . '"  class="txt-blue ' . $permCls . '">'
                             . $questionSets->title . ' Question Set</a><p class="txt-sm">Created  ' . convertDateToMMDDYYYY($questionSets->created_at, '') . '</p>';
                     })
-                    ->edit_column('modified', function($questionSets) {
+                    ->editColumn('modified', function($questionSets) {
                         return convertDateToMMDDYYYY($questionSets->updated_at, '');
                     })
-                    ->edit_column('edit', function($questionSets) use ($permCls) {
+                    ->editColumn('edit', function($questionSets) use ($permCls) {
                         if (Auth::user()->isAuthorizedStaff(''))
                             return '<a href="' . url('physician/question-set-detail/' . $questionSets->id . '/edit') . '" class="edit ' . $permCls . '" title="Edit" >'
                                 . '<i class="fa fa-pencil-square-o" ></i></a>';
                     })
-                    ->edit_column('visibility', function($questionSets) {
+                    ->editColumn('visibility', function($questionSets) {
                         $changeStatusTo = 'Private';
                         if ($questionSets->visibility == 'private') {
                             $cls            = 'label-private';
@@ -177,7 +177,7 @@ class PhysicianController extends Controller
                         if (Auth::user()->isAuthorizedStaff(''))
                             return '<a href="javascript:void(0)"><span onclick="setQuestionFlags(\'visibility\',\'' . $changeStatusTo . '\',0,' . $questionSets->id . ')" id="changeQestion' . $questionSets->id . '" class="label ' . $cls . ' ">' . ucwords($questionSets->visibility) . '</span></a>';
                     })
-                    ->add_column('duplicate', function($questionSets) use ($permCls) {
+                    ->addColumn('duplicate', function($questionSets) use ($permCls) {
                         if (Auth::user()->isAuthorizedStaff(''))
                             return '<a href="javascript:void(0)" onclick="duplicateQuestion()"><button type="button" class="btn btn-default read-more clear-div" data-toggle="modal" data-target="#duplicateQSet' . $questionSets->id . '" >Copy</button></a>
                         <!-- start duplicate pop up-->
@@ -204,11 +204,11 @@ class PhysicianController extends Controller
                            </div> <!-- end duplicate modal  -->
                         </div><!-- end duplicate pop up -->';
                     })
-                    ->edit_column('steps_completed', function($questionSets) use ($permCls) {
+                    ->editColumn('steps_completed', function($questionSets) use ($permCls) {
                         if (Auth::user()->isAuthorizedStaff('questionset_send'))
                             return '<a href="' . url('physician/sendQuestionSet/' . $questionSets->id) . '" class="' . $permCls . '"><button type="button" class="btn btn-default read-more">Send</button></a>';
                     })
-                    ->add_column('delete', function($questionSets) use ($permCls) {
+                    ->addColumn('delete', function($questionSets) use ($permCls) {
                         if (Auth::user()->isAuthorizedStaff('questionset_send'))
                             return '<a href="javascript:void(0)" onclick="deleteQS(' . $questionSets->id . ')" class="' . $permCls . '"><button type="button" class="btn btn-default read-more" id="delete_btn_qs' . $questionSets->id . '" >Delete</button></a>';
                     })
@@ -305,7 +305,7 @@ class PhysicianController extends Controller
             $id              = $questionId;
             $inputData['id'] = $id;
             $checkQuestion   = $this->questionsRepo->getQuestionList($inputData);
-            if (count($checkQuestion) > 0) {
+            if (count((array)$checkQuestion) > 0) {
                 foreach ($checkQuestion as $row)
                     $prevUserId = $row->user_id;
 
@@ -571,7 +571,7 @@ class PhysicianController extends Controller
             return ($notications + $notications2) . '###' . $notications . '###' . $notications2;
         } else {
             return Datatables::of($notications)
-                    ->edit_column('name', function($notications) use ($requestData, $notificationsRepo) {
+                    ->editColumn('name', function($notications) use ($requestData, $notificationsRepo) {
                         if ($requestData['listType'] == 'Admin') {
                             if ($notications->is_seen)
                                 $return = '<div id="divPanel' . $notications->id . '" class="panel panel-default mrgn-tp-15">';

@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 // use DB
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-use Yajra\Datatables\Facades\Datatables;
+use Yajra\DataTables\Facades\DataTables;
 // Repository
 use App\Modules\Patient\Repositories\PatientAllergyRepository;
 use App\Modules\Patient\Repositories\MedicationsRepository;
@@ -67,7 +67,7 @@ class PatientController extends Controller
 //            ->where('patients.is_account_active', '=', 'Y')->whereNull('patients.activation_code')
             ->where('physician_id', '=', $user_id);
         return Datatables::of($patients)
-                ->add_column('first_name', function($patients) {
+                ->addColumn('first_name', function($patients) {
                     if (Auth::user()->isAuthorizedStaff('patient_edit')) {
                         if ($patients->is_account_active == 'Y')
                             return "<a href='" . route('physician.patient.details', $patients->id) . "'>$patients->first_name </a>";
@@ -81,7 +81,7 @@ class PatientController extends Controller
                             return trans("Physician::messages.span_registration_pending");
                     }
                 })
-                ->add_column('last_name', function($patients) {
+                ->addColumn('last_name', function($patients) {
                     $result = "-";
                     if (!empty($patients->last_name)) {
                         if (Auth::user()->isAuthorizedStaff('patient_edit'))
@@ -91,25 +91,25 @@ class PatientController extends Controller
                     }
                     return $result;
                 })
-                ->edit_column('email', function($patients) {
+                ->editColumn('email', function($patients) {
                     if ($patients->entry_type == 'T' && $patients->is_account_active == 'P')
                         return '-';
                     else
                         return $patients->email;
                 })
-                ->add_column('dob', function($patients) {
+                ->addColumn('dob', function($patients) {
                     return (!empty($patients->dob)) ? date('m/d/Y', strtotime($patients->dob)) : "-";
                 })
-                ->add_column('age', function($patients) {
+                ->addColumn('age', function($patients) {
                     return (!empty($patients->dob)) ? Carbon::parse($patients->dob)->diff(Carbon::now())->format('%y') : "-";
                 })
-                ->add_column('gender', function($patients) {
+                ->addColumn('gender', function($patients) {
                     if ($patients->is_account_active == 'Y')
                         return ($patients->gender == 'M') ? 'Male' : 'Female';
                     else
                         return $patients->gender;
                 })
-                ->add_column('contact_no', function($patients) {
+                ->addColumn('contact_no', function($patients) {
                     return $patients->contact_number;
                 })
                 ->filter(function ($instance) use ($request) {
@@ -136,16 +136,16 @@ class PatientController extends Controller
         //$patients = User::Patient()->join('patients','user_id','=','users.id')->select('users.id','users.name','users.email','patients.dob','patients.gender','users.contact_number')->orderBy('users.id','DESC');
         $patients = Patient::select('*')->where('is_account_active', 'Y')->whereNull('activation_code');
         return Datatables::of($patients)
-                ->add_column('id', function($patients) {
+                ->addColumn('id', function($patients) {
                     return "<input type='checkbox' value='" . $patients->email . "' class='check_boxes check-list-box'>";
                 })
-                ->add_column('name', function($patients) {
+                ->addColumn('name', function($patients) {
                     return "<a href='#' class='not-done'>" . $patients->first_name . " " . $patients->last_name . " </a>";
                 })
-                ->add_column('dob', function($patients) {
+                ->addColumn('dob', function($patients) {
                     return (!empty($patients->dob)) ? date('m/d/Y', strtotime($patients->dob)) : "-";
                 })
-                ->add_column('contact_no', function($patients) {
+                ->addColumn('contact_no', function($patients) {
                     return $patients->contact_number;
                 })
                 ->filter(function ($instance) use ($request) {
@@ -192,13 +192,13 @@ class PatientController extends Controller
         $qrid        = $reqeustData['qrid'];
         $types       = $reqeustData['types'];
         $questions   = QuestionsCategory::select('id')->where('question_id', $qid)->where('clinical_question', '1')->where('active', 'Y')->get();
-        if (count($questions) > 0) {
+        if (count((array)$questions) > 0) {
             $idArray   = array();
             for ($i = 0; $i < count($questions); $i++)
                 $idArray[] = $questions[$i]['id'];
 
             $clinical = QuestionReceipientsAnswers::whereIn('question_category_id', $idArray)->get()->count();
-            if (( count($questions) - $clinical ) > 0)
+            if (( count((array)$questions) - $clinical ) > 0)
                 $count    = 1;
             else
                 $count    = 0;
@@ -229,7 +229,7 @@ class PatientController extends Controller
                 ->where('patient_id', $patientId)->where('physician_id', $physicianId)->where('questions.active', '=', 'Y')->orderBy('question_recipients.updated_at', 'DESC');
 
         return Datatables::of($patientDetails)
-                ->add_column('title', function($patientDetails) {
+                ->addColumn('title', function($patientDetails) {
                     $patientName = '';
 
                     $patientName = $patientDetails->question->title;
@@ -238,18 +238,18 @@ class PatientController extends Controller
                     else
                         return $patientName;
                 })
-                ->add_column('created_at', function($patientDetails) {
+                ->addColumn('created_at', function($patientDetails) {
                     return (!empty($patientDetails->created_at)) ? date('m/d/Y', strtotime($patientDetails->created_at)) : "-";
                 })
-                ->add_column('status', function($patientDetails) {
+                ->addColumn('status', function($patientDetails) {
                     $clsTxt = ('completed' == $patientDetails->status) ? 'txt-blue' : 'txt-orange';
                     return "<span class=\"$clsTxt\">" . ucfirst($patientDetails->status) . "</span>";
                 })
-                ->add_column('actions', function($patientDetails) {
+                ->addColumn('actions', function($patientDetails) {
 //                    if ('pending' == $patientDetails->status)
                     return "<a href=\"javascript:void(0)\" class=\"txt-orange\" onclick=\"resendQuestionSet(" . $patientDetails->patient_id . "," . $patientDetails->question_id . "," . $patientDetails->id . ")\" >Resend</a>";
                 })
-                ->add_column('reports', function($patientDetails) {
+                ->addColumn('reports', function($patientDetails) {
                     if ('completed' == $patientDetails->status) {
                         $reportLinks = "";
                         if (Auth::user()->isAuthorizedStaff('patient_summaryReportList'))
@@ -293,7 +293,7 @@ class PatientController extends Controller
         $sendToId                   = 0;
         $requestData['report_type'] = $requestData['rType']; //'S';
         $userInfo                   = $physicianRepo->getUsers($inputData);
-        if (count($userInfo) > 0) {
+        if (count((array)$userInfo) > 0) {
             $sendToId = $userInfo->id;
             if ($requestData['rType'] == 'S') {
                 $requestData['summary']  = $questionReceipientRepo->summaryReport($requestData['rid']);
@@ -355,7 +355,7 @@ class PatientController extends Controller
 
         $questionSets = QuestionReceipients::with('question', 'question.questionSets', 'question.questionSets.defaultOptions', 'answers', 'question.questionSets.category', 'patient', 'question.questionSetsyesNoCount')->leftJoin('questions', 'question_recipients.question_id', '=', 'questions.id')->where('question_recipients.id', $qRecId)->where('questions.active', '=', 'Y')->select('question_recipients.*')->get();
 
-        if (!$questionSets || count($questionSets) == 0) {
+        if (!$questionSets || count((array)$questionSets) == 0) {
             return redirect()->back();
         }
         $categories = $questionSets->map(function ($value) {
@@ -510,7 +510,7 @@ class PatientController extends Controller
         $this->surgicalHistoryRepo = new SurgicalHistoryRepository();
         $surgicalHistoryList       = $this->surgicalHistoryRepo->getSurgicalHistoryList($patientId);
         return Datatables::of($surgicalHistoryList)
-                ->edit_column('surgery_date', function($surgicalHistoryList) {
+                ->editColumn('surgery_date', function($surgicalHistoryList) {
                     return (!empty($surgicalHistoryList->surgery_date)) ? Carbon::parse($surgicalHistoryList->surgery_date)->format('m/d/Y') : "-";
                 })->make(true);
     }

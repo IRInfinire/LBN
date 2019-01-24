@@ -27,6 +27,7 @@ class QuestionsRepository extends BaseRepository
         if ($userId > 0)
             $query  = $query->where('user_id', $userId);
         $result = $query->find($id);
+        //echo '<pre>';print_r($result);exit;
         return $result;
     }
     /**

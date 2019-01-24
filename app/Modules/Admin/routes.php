@@ -11,6 +11,13 @@ Route::group(array('module' => 'Admin', 'prefix' => 'admin', 'middleware' => ['w
     //        --- end  showing published question set ----
     Route::get('/patients-list', 'QuestionSetController@patientsList');
     Route::get('/physicians-list', 'QuestionSetController@physiciansList');
+    
+    
+    
+    // Route::get('/physicians-list', 'QuestionSetController@physiciansListtest');
+
+
+
     Route::get('/adminEdit/{id}', 'QuestionSetController@editLibrary_Removed')->where('id', '[0-9]+');
     Route::post('/setFlags', 'QuestionSetController@updateFlagSettings');
     Route::post('/set-menu-settings', 'AdminController@updateMenuSettings');

@@ -24,6 +24,6 @@ class QuestionsWithYesno extends Model
      *
      * @var bool
      */
-//    public $timestamps = tr;
+   public $timestamps = true;
  
 }

@@ -16,6 +16,7 @@ class CreateIllnessTable extends Migration {
 		{
 			$table->increments('id');
 			$table->string('illness', 100);
+			$table->timestamps();
 		});
 	}
 
