@@ -67,7 +67,7 @@ class SessionCheck extends \Illuminate\Auth\Middleware\Authenticate {
      *
      * @throws \Illuminate\Auth\AuthenticationException
      */
-    protected function authenticate(array $guards) {
+    protected function authenticate($request, array $guards) {
         if (empty($guards)) {
             return $this->auth->authenticate();
         }
